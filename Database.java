@@ -11,9 +11,10 @@ class fetch extends Thread {
             try {
                 java.sql.Statement stml = con.createStatement();
                 ResultSet rs = stml.executeQuery("select * from data");
+                System.out.println("Name"+" "+"Father name"+" "+"age"+" "+"Vaccine"+" "+"Gender"+" "+" Date"+" "+"Location");
                 while (rs.next())
                     System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-                            + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6));
+                            + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6)+" "+rs.getString(7));
                 con.close();
                 con.close();
             } catch (SQLException e) {
@@ -82,8 +83,9 @@ class vaccination {
                 System.out.println("Father Name" + " " + rs1.getString(2));
                 System.out.println("Age" + " " + rs1.getString(3));
                 System.out.println("Vaccine" + " " + rs1.getString(4));
-                System.out.println("Date" + " " + rs1.getString(5));
-                System.out.println("Karachi" + " " + rs1.getString(6));
+                System.out.println("Gender" + " " + rs1.getString(5));
+                System.out.println("Date" + " " + rs1.getString(6));
+                System.out.println("Location" + " " + rs1.getString(7));
                 System.out.println("**************************");
 
             }
