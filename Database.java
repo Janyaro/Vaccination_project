@@ -4,6 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
+interface ImplimentMethod {
+    public void add_Deatail(String child_name, String Father_name, int child_age, String vaccine, String gender,
+            String date, String location) throws SQLException;
+            public void Fetch_Detail() throws SQLException ;
+            public void DeleteData(String cname, String faname);    
+            public void Indivdual_Selection(String name, String fname);    
+} 
 
 class fetch extends Thread {
     public void run() {
