@@ -1,7 +1,7 @@
-import java.awt.BorderLayout;
+// import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+// import java.io.FileReader;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 
 import java.awt.Color;
-import java.io.IOException;
+// import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -24,7 +24,7 @@ public class Output extends JFrame {
     public JTextField textField_5;
     public JTextField textField_6;
     public JTextField textField_7;
-    Task t=new Task();
+    // Task t=new Task();
     /**
      * Launch the application.
      */

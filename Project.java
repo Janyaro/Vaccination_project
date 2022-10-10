@@ -18,8 +18,7 @@ class fetch extends Thread {
             try {
                 java.sql.Statement stml = con.createStatement();
                 ResultSet rs = stml.executeQuery("select * from data");
-                System.out.println("Name"+" "+"Father name"+" "+"age"+" "+"Vaccine"+" "+"Gender"+" "+" Date"+" "+"Location");
-                while (rs.next())
+            while (rs.next())
                     System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
                             + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6)+" "+rs.getString(7));
                 con.close();
@@ -37,8 +36,8 @@ class fetch extends Thread {
 
 class vaccination {
     // Connection con;
-    // PreparedStatement pst;
-    // ResultSet rs;
+    PreparedStatement pst;
+    ResultSet rs;
 
     public void add_Deatail(String child_name, String Father_name, int child_age, String vaccine, String gender,
             String date, String location) throws SQLException {
@@ -47,7 +46,7 @@ class vaccination {
         "root", "");
         try (Connection conn = SQLConnection.makeConnection()) {
             String sqlQuery = "insert into data values(?,?,?,?,?,?,?)";
-          PreparedStatement  pst = con.prepareStatement(sqlQuery);
+            pst = con.prepareStatement(sqlQuery);
             pst.setString(1, child_name);
             pst.setString(2, Father_name);
             pst.setInt(3, child_age);
@@ -69,6 +68,12 @@ class vaccination {
     public void Fetch_Detail() throws SQLException {
         fetch f = new fetch();
         f.start();
+        try {
+            f.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     public void Indivdual_Selection(String name, String fname) {
@@ -78,7 +83,7 @@ class vaccination {
             "root", "");
             
             String sqlQuery1 = "select * from data where Child_Name = ? and Father_name= ?";
-         PreparedStatement   pst = con.prepareStatement(sqlQuery1);
+           pst = con.prepareStatement(sqlQuery1);
             pst.setString(1, name);
             pst.setString(2, fname);
             ResultSet rs1 = pst.executeQuery();
@@ -124,22 +129,27 @@ class vaccination {
 
 }
 
-public class Database {
+public class Project {
     public static void main(String[] args) throws SQLException {
 
         vaccination v = new vaccination();
 
         Scanner sc = new Scanner(System.in);
         char cont;
+        try {
 
         do {
-            System.out.println("**************************Welcome to Vaccination system***************************");
+           
+           System.out.println("*************************Welcome to Vaccination Management system***************************");
             System.out.println("1 : Vaccination ");
             System.out.println("2 : Vacinated Children");
             System.out.println("3 : Search children Data");
             System.out.println("4 : Delete children Data");
+                        
+            
             int option = sc.nextInt();
             sc.nextLine();
+
             switch (option) {
                 case 1:
                     System.out.println("Enter children name ");
@@ -182,11 +192,16 @@ public class Database {
                     System.out.println("Select above options");
                     break;
             }
-            System.out.println("Do you want to continue");
+        
+                    System.out.println("Do you want to continue");
             cont = sc.next().charAt(0);
-
+        
+    
         } while (cont == 'Y' || cont == 'y');
-
+    } catch (Exception e) {
+        System.out.println("Enter above Option");
+        }
         sc.close();
+    
     }
 }
