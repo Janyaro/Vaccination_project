@@ -7,11 +7,12 @@ import java.util.Scanner;
 
 interface user {
     public void sign_in(String name, int ID, String password, String Designation, String email, String Contact);
-
-    public void Forget(String name, int ID);
+    public void DeleteUser(String name ,String email);
+    public void Forget(String name, String Email);
 }
 
 interface ImplimentMethod {
+    
     public void add_Deatail(String child_name, String Father_name, int child_age, String vaccine, String gender,
             String date, String location) throws SQLException;
 
@@ -40,9 +41,9 @@ class userAccount implements user {
                 pst.setString(5, E_mail);
                 pst.setString(6, Contact);
                 if (pst.executeUpdate() == 1)
-                    System.out.println("Record Saved To SQl Database");
+                    System.out.println("Record Saved ");
                 else
-                    System.out.println("Record Saved To SQl Database Error");
+                    System.out.println("Record not contain in the  Error");
             } catch (Exception e) {
                 System.out.println("Exception is occured");
                 e.printStackTrace();
@@ -53,16 +54,16 @@ class userAccount implements user {
     }
 
     @Override
-    public void Forget(String name, int ID) {
+    
+    public void Forget(String name, String Email) {
         try {
-
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/user",
                     "root", "");
-            String sql = "select * from sign_in where Name = ? and ID =?";
+            String sql = "select * from sign_in where Name = ? and E_mail =?";
             try {
                 pst = con.prepareStatement(sql);
                 pst.setString(1, name);
-                pst.setInt(2, ID);
+                pst.setString(2, Email);
                 ResultSet rs1 = pst.executeQuery();
                 if (rs1.next() == false) {
                     System.out.println("Sorry record not found");
@@ -87,6 +88,29 @@ class userAccount implements user {
 
     }
 
+    @Override
+    public void DeleteUser(String name, String email) {
+        
+            String sql = "delete  from sign_in where Name=? and E_mail=?";
+            
+            try {
+    
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/user",
+                        "root", "");
+                PreparedStatement pst = con.prepareStatement(sql);
+                       
+                pst.setString(1, name);
+                pst.setString(2, email);
+                pst.execute();
+                System.out.println("Data Delected");
+ 
+            } catch (SQLException e) {
+                System.out.println("Data is not find in the data base ");
+                e.printStackTrace();
+            }
+        
+        }
+
 }
 
 class fetch extends Thread {
@@ -96,9 +120,9 @@ class fetch extends Thread {
                 java.sql.Statement stml = con.createStatement();
                 ResultSet rs = stml.executeQuery("select * from data");
                 while (rs.next())
+                
                     System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
                             + rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7));
-
                 con.close();
                 con.close();
             } catch (SQLException e) {
@@ -133,9 +157,9 @@ class vaccination {
             pst.setString(6, date);
             pst.setString(7, location);
             if (pst.executeUpdate() == 1)
-                System.out.println("Record Saved To SQl Database");
+                System.out.println("Record Saved ");
             else
-                System.out.println("Record Saved To SQl Database Error");
+                System.out.println("Error");
         } catch (Exception e) {
             System.out.println("Exception is occured");
             e.printStackTrace();
@@ -197,10 +221,10 @@ class vaccination {
             pst.setString(1, cname);
             pst.setString(2, faname);
             pst.execute();
-            System.out.println("Data Delected");
+        System.out.println("Data Deleted");
         } catch (SQLException e) {
-            System.out.println("Data is not find in the data base ");
-            e.printStackTrace();
+            System.out.println("Data is not found ");
+            
         }
 
     }
@@ -219,9 +243,12 @@ public class Project {
         
         System.out.println("***********************Welcome to vaccine Management System ****************");
         do {
-            System.out.println("Sign in");
-            System.out.println("Vaccination process");
+        
+            System.out.println("Login user");
+            System.out.println("Vaccination ");
             System.out.println("Forget password");
+            System.out.println("Delete User ");
+            System.out.println("***********************************************************************");
             int key = sc.nextInt();
             sc.nextLine();
             switch (key) {
@@ -264,12 +291,14 @@ public class Project {
                                 System.out.println(
                                         "*************************Welcome to Vaccination Poratl***************************");
                                 System.out.println("1 : Vaccination ");
-                                System.out.println("2 : Vacinated Children");
-                                System.out.println("3 : Search children Data");
-                                System.out.println("4 : Delete children Data");
-
-                                int option = sc.nextInt();
+                                System.out.println("2 : See Vacinated Children");
+                                System.out.println("3 : Search Vaccinated Children Data");
+                                System.out.println("4 : Delete Vaccinated Children Data");
+                            System.out.println("*******************************************************");
+                         
+                            int option = sc.nextInt();
                                 sc.nextLine();
+                            
 
                                 switch (option) {
                                     case 1:
@@ -328,11 +357,19 @@ public class Project {
                 case 3:
                     System.out.println("Enter Your Name");
                     String fName = sc.nextLine();
-                    System.out.println("Enter your id");
-                    int fid = sc.nextInt();
-                    a.Forget(fName, fid);
+                    System.out.println("Enter Your Email");
+                    String Email = sc.nextLine();
+                    a.Forget(fName, Email);
                     break;
+                case 4 :
+                System.out.println("Enter Your Name");
+                    String name = sc.nextLine();
+                    System.out.println("Enter Your Email");
+                    String del_email = sc.nextLine();
+                a.DeleteUser(name, del_email);
+                break;
                 default:
+                System.out.println("Select the Above Option");
                     break;
             }
 
