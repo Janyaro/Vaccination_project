@@ -245,7 +245,7 @@ public class Project {
         do {
         
             System.out.println("Login user");
-            System.out.println("Vaccination ");
+            System.out.println("Vaccination portal");
             System.out.println("Forget password");
             System.out.println("Delete User ");
             System.out.println("***********************************************************************");
